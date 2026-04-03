@@ -40,14 +40,14 @@
         let dragging = null;
         let offset = {x: 0, y: 0};
         
-        const templates = [
-            { name: 'McAfee Total Protection', icon: '⚠️', title: 'CRITICAL THREAT DETECTED', threat: 'Trojan.GenericKD.4521', details: 'File: C:\\Windows\\System32\\drivers\\etc\\hosts', class: 'mcafee' },
-            { name: 'Kaspersky Internet Security', icon: '🛡️', title: 'MALWARE DETECTED', threat: 'Backdoor.Win32.Poison', details: 'Location: C:\\Program Files\\RealPlayer\\RealPlayer.exe', class: 'kaspersky' },
-            { name: 'Norton AntiVirus', icon: '🚨', title: 'VIRUS WARNING!', threat: 'Win32.Zotob.A!generic', details: 'File: C:\\Windows\\svchost.exe', class: 'norton' },
-            { name: 'Avast Free Antivirus', icon: '⛔', title: 'RANSOMWARE DETECTED', threat: 'Ransom.Wannacry', details: 'Status: BLOCKED', class: 'avast' },
-            { name: 'Windows Defender Security Center', icon: '⚠️', title: 'SPYWARE DETECTED', threat: 'PUA:Win32/Adware.Bundler', details: 'File: C:\\Users\\Admin\\AppData\\Local\\Temp\\infected.exe', class: 'defender' }
-        ];
-        
+const templates = [
+    { name: 'McAfee Total Protection', icon: '⚠️', title: 'CRITICAL THREAT DETECTED', threat: 'Trojan.GenericKD.4521', details: 'File: C:\\Windows\\System32\\drivers\\etc\\hosts', class: 'mcafee' },
+    { name: 'Kaspersky Internet Security', icon: '🛡️', title: 'MALWARE DETECTED', threat: 'Backdoor.Win32.Poison', details: 'Location: C:\\Program Files\\RealPlayer\\RealPlayer.exe', class: 'kaspersky' },
+    { name: 'Norton AntiVirus', icon: '🚨', title: 'VIRUS WARNING!', threat: 'Win32.Zotob.A!generic', details: 'File: C:\\Windows\\svchost.exe', class: 'norton' },
+    { name: 'Avast Free Antivirus', icon: '⛔', title: 'RANSOMWARE DETECTED', threat: 'Ransom.Wannacry', details: 'Status: BLOCKED', class: 'avast' },
+    { name: 'Windows Defender Security Center', icon: '⚠️', title: 'SPYWARE DETECTED', threat: 'PUA:Win32/Adware.Bundler', details: 'File: C:\\Users\\Admin\\AppData\\Local\\Temp\\infected.exe', class: 'defender' },
+    { name: 'Command Prompt', icon: '💻', title: 'TERMINAL', threat: 'SYSTEM LOG', details: '', class: 'terminal', isTerminal: true, terminalContent: `C:\\> dir<br>Volume in drive C has no label.<br>Volume Serial Number is 1234-5678<br><br>Directory of C:\\Windows\\System32<br><br>01/15/2024  09:23 AM    &lt;DIR&gt;          .<br>01/15/2024  09:23 AM    &lt;DIR&gt;          ..<br>01/15/2024  08:15 AM        1,234,567  svchost.exe<br>01/14/2024  07:45 PM          456,789  lsass.exe<br>01/14/2024  06:30 PM          234,567  services.exe<br><br>C:\\> ipconfig<br>Windows IP Configuration<br>Ethernet adapter Ethernet:<br>   Connection-specific DNS Suffix: <br>   IPv4 Address: 192.168.1.100<br>   Subnet Mask: 255.255.255.0<br>   Default Gateway: 192.168.1.1<br><br>C:\\> tasklist<br>Image Name                     PID Session Name     Session# Mem Usage<br>System                            4 Services            0    9,856 K<br>csrss.exe                       308 Services            0    3,456 K<br>wininit.exe                     456 Services            0    2,345 K<br>svchost.exe                     512 Services            0    5,678 K<br>lsass.exe                       628 Services            0    4,567 K<br>explorer.exe                    832 Console            1   12,345 K<br><br>C:\\> netstat -an<br>Active Connections<br>  Proto  Local Address          Foreign Address        State<br>  TCP    0.0.0.0:135            0.0.0.0:0              LISTENING<br>  TCP    0.0.0.0:445            0.0.0.0:0              LISTENING<br>  TCP    192.168.1.100:139      0.0.0.0:0              LISTENING<br>  TCP    192.168.1.100:445      88.234.156.22:54321   ESTABLISHED<br><br>C:\\> CRITICAL ERROR - UNAUTHORIZED REMOTE ACCESS DETECTED<br>C:\\> _` }
+];
         function createWindow(template) {
             const randomX = Math.random() * (window.innerWidth - 350);
             const randomY = Math.random() * (window.innerHeight - 250);
@@ -58,8 +58,7 @@
             div.style.left = randomX + 'px';
             div.innerHTML = `
                 <div class="titlebar"><div class="titletext">${template.name}</div><button class="close">&times;</button></div>
-                <div class="content"><div class="alert-icon">${template.icon}</div><div class="alert-title">${template.title}</div><div class="alert-text"><strong>${template.threat}</strong><br>${template.details}<br><div class="progress"><div class="progress-bar"></div></div></div><button class="btn-action">ACTION</button></div>
-            `;
+            <div class="content">${template.isTerminal ? `<div class="terminal-content" style="background: #000; color: #00ff00; padding: 10px; font-size: 11px; line-height: 1.4; max-height: 300px; overflow-y: auto; border: 1px solid #666; text-align: left;">${template.terminalContent}</div>` : `<div class="alert-icon">${template.icon}</div><div class="alert-title">${template.title}</div><div class="alert-text"><strong>${template.threat}</strong><br>${template.details}<br><div class="progress"><div class="progress-bar"></div></div></div><button class="btn-action">ACTION</button>`}</div>            `;
             
             document.getElementById('container').appendChild(div);
             
