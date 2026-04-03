@@ -34,125 +34,77 @@
 </head>
 <body>
     <div class="background"></div>
-    
-    <div class="window mcafee" style="top: 50px; left: 100px;">
-        <div class="titlebar"><div class="titletext">McAfee Total Protection</div><button class="close">&times;</button></div>
-        <div class="content"><div class="alert-icon">⚠️</div><div class="alert-title">CRITICAL THREAT DETECTED</div><div class="alert-text"><strong>Trojan.GenericKD.4521</strong><br>File: C:\Windows\System32\drivers\etc\hosts<br>Status: <span class="critical">INFECTED</span><br><div class="progress"><div class="progress-bar"></div></div>Scanning... 87%</div><button class="btn-action">SCAN NOW</button></div>
-    </div>
+    <div id="container"></div>
 
-    <div class="window kaspersky" style="top: 200px; left: 400px;">
-        <div class="titlebar"><div class="titletext">Kaspersky Internet Security</div><button class="close">&times;</button></div>
-        <div class="content"><div class="alert-icon">🛡️</div><div class="alert-title">MALWARE DETECTED</div><div class="alert-text"><strong>Backdoor.Win32.Poison</strong><br>Location: C:\Program Files\RealPlayer\RealPlayer.exe<br>Threat Level: <span class="critical">HIGH</span><br>Action: Quarantined</div><button class="btn-action">REMOVE</button></div>
-    </div>
-
-    <div class="window norton" style="top: 350px; left: 650px;">
-        <div class="titlebar"><div class="titletext">Norton AntiVirus</div><button class="close">&times;</button></div>
-        <div class="content"><div class="alert-icon">🚨</div><div class="alert-title">VIRUS WARNING!</div><div class="alert-text"><strong>Win32.Zotob.A!generic</strong><br>File: C:\Windows\svchost.exe<br>Recommended: Delete Immediately<br><div class="progress"><div class="progress-bar"></div></div>Cleaning... 65%</div><button class="btn-action">DELETE</button></div>
-    </div>
-
-    <div class="window avast" style="top: 120px; left: 750px;">
-        <div class="titlebar"><div class="titletext">Avast Free Antivirus</div><button class="close">&times;</button></div>
-        <div class="content"><div class="alert-icon">⛔</div><div class="alert-title">RANSOMWARE DETECTED</div><div class="alert-text"><strong>Ransom.Wannacry</strong><br>Status: <span class="critical">BLOCKED</span><br>Action Taken: Quarantine<br><div class="progress"><div class="progress-bar"></div></div></div><button class="btn-action">LEARN MORE</button></div>
-    </div>
-
-    <div class="window defender" style="top: 400px; left: 200px;">
-        <div class="titlebar"><div class="titletext">Windows Defender Security Center</div><button class="close">&times;</button></div>
-        <div class="content"><div class="alert-icon">⚠️</div><div class="alert-title">SPYWARE DETECTED</div><div class="alert-text"><strong>PUA:Win32/Adware.Bundler</strong><br>File: C:\Users\Admin\AppData\Local\Temp\infected.exe<br>Risk Level: <span class="high">MEDIUM-HIGH</span><br>Recommended Action: Remove</div><button class="btn-action">REMOVE NOW</button></div>
-    </div>
-
-    <div class="window terminal" style="top: 500px; left: 400px;">
-        <div class="titlebar terminal-bar"><div class="titletext">Command Prompt - System Log</div><button class="close">&times;</button></div>
-        <div class="terminal-content">
-            <div>C:\> ping localhost</div>
-            <div>PING localhost (127.0.0.1): 32 bytes</div>
-            <div>Reply from 127.0.0.1: time&lt;1ms TTL=64</div>
-            <div style="color: #ff3333;">C:\> CRITICAL ERROR - UNAUTHORIZED ACCESS DETECTED</div>
-            <div>C:\> ipconfig</div>
-            <div>IP Address: 192.168.1.100</div>
-            <div style="color: #ff3333;">BACKDOOR ESTABLISHED - 3 UNKNOWN CONNECTIONS</div>
-            <div>C:\> _</div>
-        </div>
-    </div>
-
-   <script>
-    let dragging = null;
-    let offset = {x: 0, y: 0};
-    let windowCounter = 0;
-
-    const templates = [
-        { name: 'McAfee Total Protection', icon: '⚠️', title: 'CRITICAL THREAT DETECTED', threat: 'Trojan.GenericKD.4521', details: 'File: C:\\Windows\\System32\\drivers\\etc\\hosts', class: 'mcafee' },
-        { name: 'Kaspersky Internet Security', icon: '🛡️', title: 'MALWARE DETECTED', threat: 'Backdoor.Win32.Poison', details: 'Location: C:\\Program Files\\RealPlayer\\RealPlayer.exe', class: 'kaspersky' },
-        { name: 'Norton AntiVirus', icon: '🚨', title: 'VIRUS WARNING!', threat: 'Win32.Zotob.A!generic', details: 'File: C:\\Windows\\svchost.exe', class: 'norton' },
-        { name: 'Avast Free Antivirus', icon: '⛔', title: 'RANSOMWARE DETECTED', threat: 'Ransom.Wannacry', details: 'Status: BLOCKED', class: 'avast' },
-        { name: 'Windows Defender Security Center', icon: '⚠️', title: 'SPYWARE DETECTED', threat: 'PUA:Win32/Adware.Bundler', details: 'File: C:\\Users\\Admin\\AppData\\Local\\Temp\\infected.exe', class: 'defender' }
-    ];
-
-    function createWindow(template) {
-        windowCounter++;
-        const randomX = Math.random() * (window.innerWidth - 350);
-        const randomY = Math.random() * (window.innerHeight - 250);
+    <script>
+        let dragging = null;
+        let offset = {x: 0, y: 0};
         
-        const div = document.createElement('div');
-        div.className = `window ${template.class}`;
-        div.style.top = randomY + 'px';
-        div.style.left = randomX + 'px';
-        div.innerHTML = `
-            <div class="titlebar"><div class="titletext">${template.name}</div><button class="close">&times;</button></div>
-            <div class="content"><div class="alert-icon">${template.icon}</div><div class="alert-title">${template.title}</div><div class="alert-text"><strong>${template.threat}</strong><br>${template.details}<br><div class="progress"><div class="progress-bar"></div></div></div><button class="btn-action">ACTION</button></div>
-        `;
+        const templates = [
+            { name: 'McAfee Total Protection', icon: '⚠️', title: 'CRITICAL THREAT DETECTED', threat: 'Trojan.GenericKD.4521', details: 'File: C:\\Windows\\System32\\drivers\\etc\\hosts', class: 'mcafee' },
+            { name: 'Kaspersky Internet Security', icon: '🛡️', title: 'MALWARE DETECTED', threat: 'Backdoor.Win32.Poison', details: 'Location: C:\\Program Files\\RealPlayer\\RealPlayer.exe', class: 'kaspersky' },
+            { name: 'Norton AntiVirus', icon: '🚨', title: 'VIRUS WARNING!', threat: 'Win32.Zotob.A!generic', details: 'File: C:\\Windows\\svchost.exe', class: 'norton' },
+            { name: 'Avast Free Antivirus', icon: '⛔', title: 'RANSOMWARE DETECTED', threat: 'Ransom.Wannacry', details: 'Status: BLOCKED', class: 'avast' },
+            { name: 'Windows Defender Security Center', icon: '⚠️', title: 'SPYWARE DETECTED', threat: 'PUA:Win32/Adware.Bundler', details: 'File: C:\\Users\\Admin\\AppData\\Local\\Temp\\infected.exe', class: 'defender' }
+        ];
         
-        document.body.appendChild(div);
-        
-        // Close functionality
-        div.querySelector('.close').addEventListener('click', (e) => {
-            e.stopPropagation();
-            div.remove();
-        });
-        
-        // Dragging
-        div.querySelector('.titlebar').addEventListener('mousedown', (e) => {
-            dragging = div;
-            let rect = div.getBoundingClientRect();
-            offset.x = e.clientX - rect.left;
-            offset.y = e.clientY - rect.top;
-            div.style.zIndex = 10000;
-        });
-    }
-
-    document.addEventListener('mousemove', (e) => {
-        if (!dragging) return;
-        dragging.style.left = (e.clientX - offset.x) + 'px';
-        dragging.style.top = (e.clientY - offset.y) + 'px';
-    });
-
-    document.addEventListener('mouseup', () => {
-        dragging = null;
-    });
-
-    // Spawn new windows rapidly - 1-3 new windows every 300ms
-    setInterval(() => {
-        const count = Math.floor(Math.random() * 3) + 1;
-        for (let i = 0; i < count; i++) {
-            const template = templates[Math.floor(Math.random() * templates.length)];
-            createWindow(template);
+        function createWindow(template) {
+            const randomX = Math.random() * (window.innerWidth - 350);
+            const randomY = Math.random() * (window.innerHeight - 250);
+            
+            const div = document.createElement('div');
+            div.className = `window ${template.class}`;
+            div.style.top = randomY + 'px';
+            div.style.left = randomX + 'px';
+            div.innerHTML = `
+                <div class="titlebar"><div class="titletext">${template.name}</div><button class="close">&times;</button></div>
+                <div class="content"><div class="alert-icon">${template.icon}</div><div class="alert-title">${template.title}</div><div class="alert-text"><strong>${template.threat}</strong><br>${template.details}<br><div class="progress"><div class="progress-bar"></div></div></div><button class="btn-action">ACTION</button></div>
+            `;
+            
+            document.getElementById('container').appendChild(div);
+            
+            div.querySelector('.close').addEventListener('click', (e) => {
+                e.stopPropagation();
+                div.remove();
+            });
+            
+            div.querySelector('.titlebar').addEventListener('mousedown', (e) => {
+                dragging = div;
+                let rect = div.getBoundingClientRect();
+                offset.x = e.clientX - rect.left;
+                offset.y = e.clientY - rect.top;
+                div.style.zIndex = 10000;
+            });
         }
-    }, 300);
-
-    // Also spawn the initial 5 windows
-    templates.forEach((template, index) => {
-        createWindow(template);
-    });
-
-    // Limit total windows to 50 to avoid browser crash
-    setInterval(() => {
-        const windows = document.querySelectorAll('.window');
-        if (windows.length > 50) {
-            for (let i = 0; i < windows.length - 50; i++) {
-                windows[i].remove();
+        
+        document.addEventListener('mousemove', (e) => {
+            if (!dragging) return;
+            dragging.style.left = (e.clientX - offset.x) + 'px';
+            dragging.style.top = (e.clientY - offset.y) + 'px';
+        });
+        
+        document.addEventListener('mouseup', () => {
+            dragging = null;
+        });
+        
+        // Create initial 5 windows
+        templates.forEach(t => createWindow(t));
+        
+        // Spawn 2-4 new windows every 200ms
+        setInterval(() => {
+            const count = Math.floor(Math.random() * 3) + 2;
+            for (let i = 0; i < count; i++) {
+                createWindow(templates[Math.floor(Math.random() * templates.length)]);
             }
-        }
-    }, 1000);
-</script>
+            
+            // Keep max 60 windows on screen
+            const windows = document.querySelectorAll('.window');
+            if (windows.length > 60) {
+                for (let i = 0; i < windows.length - 60; i++) {
+                    windows[i].remove();
+                }
+            }
+        }, 200);
+    </script>
 </body>
-</html>
 </html>
