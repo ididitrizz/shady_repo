@@ -4,126 +4,113 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>System Warning - Critical Threat Detected</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #000; color: #fff; font-family: "Courier New", monospace; overflow: hidden; height: 100vh; }
+        .background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(0deg, rgba(0, 255, 0, 0.03) 0px, rgba(0, 255, 0, 0.03) 1px, transparent 1px, transparent 2px), #000; pointer-events: none; z-index: 1; }
+        .window { position: fixed; background: #c0c0c0; border: 2px solid; border-color: #dfdfdf #808080 #808080 #dfdfdf; box-shadow: 1px 1px 0 #000, 2px 2px 0 rgba(0,0,0,0.5); min-width: 300px; z-index: 100; }
+        .titlebar { background: linear-gradient(90deg, #000080, #1084d7); color: #fff; padding: 2px 2px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 12px; cursor: move; user-select: none; }
+        .titletext { flex: 1; padding: 2px 4px; }
+        .close { background: #c0c0c0; border: 1px solid; border-color: #dfdfdf #808080 #808080 #dfdfdf; width: 18px; height: 14px; font-size: 10px; cursor: pointer; color: #000; font-weight: bold; }
+        .content { padding: 10px; background: #c0c0c0; text-align: center; }
+        .alert-icon { font-size: 48px; margin-bottom: 10px; }
+        .alert-title { font-weight: bold; color: #ff3333; font-size: 14px; margin-bottom: 10px; }
+        .alert-text { text-align: left; color: #000; font-size: 12px; line-height: 1.6; margin-bottom: 10px; }
+        .critical { color: #ff3333; font-weight: bold; }
+        .high { color: #ff6600; font-weight: bold; }
+        .progress { width: 100%; height: 20px; background: #dfdfdf; border: 1px solid #808080; margin: 5px 0; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, #ff3333, #ff6600); animation: move 2s infinite; }
+        @keyframes move { 0%, 100% { width: 0%; } 50% { width: 100%; } }
+        .btn-action { background: #c0c0c0; border: 2px solid; border-color: #dfdfdf #808080 #808080 #dfdfdf; padding: 4px 12px; cursor: pointer; color: #000; font-weight: bold; }
+        .mcafee .titlebar { background: linear-gradient(90deg, #8b0000, #ff1a1a); }
+        .kaspersky .titlebar { background: linear-gradient(90deg, #006400, #00aa00); }
+        .norton .titlebar { background: linear-gradient(90deg, #1a1a6b, #4040ff); }
+        .avast .titlebar { background: linear-gradient(90deg, #ff6600, #ff9933); }
+        .defender .titlebar { background: linear-gradient(90deg, #0078d4, #0096ff); }
+        .terminal { width: 400px; }
+        .terminal-bar { background: #000080 !important; }
+        .terminal-content { background: #000; color: #00ff00; padding: 10px; font-size: 12px; max-height: 150px; }
+    </style>
 </head>
 <body>
     <div class="background"></div>
     
-    <!-- McAfee Alert -->
     <div class="window mcafee" style="top: 50px; left: 100px;">
-        <div class="titlebar">
-            <div class="titletext">McAfee Total Protection</div>
-            <button class="close">&times;</button>
-        </div>
-        <div class="content">
-            <div class="alert-icon">⚠️</div>
-            <div class="alert-title">CRITICAL THREAT DETECTED</div>
-            <div class="alert-text">
-                <strong>Trojan.GenericKD.4521</strong><br>
-                File: C:\Windows\System32\drivers\etc\hosts<br>
-                Status: <span class="critical">INFECTED</span><br>
-                <div class="progress"><div class="progress-bar"></div></div>
-                Scanning... 87%
-            </div>
-            <button class="btn-action">SCAN NOW</button>
-        </div>
+        <div class="titlebar"><div class="titletext">McAfee Total Protection</div><button class="close">&times;</button></div>
+        <div class="content"><div class="alert-icon">⚠️</div><div class="alert-title">CRITICAL THREAT DETECTED</div><div class="alert-text"><strong>Trojan.GenericKD.4521</strong><br>File: C:\Windows\System32\drivers\etc\hosts<br>Status: <span class="critical">INFECTED</span><br><div class="progress"><div class="progress-bar"></div></div>Scanning... 87%</div><button class="btn-action">SCAN NOW</button></div>
     </div>
 
-    <!-- Kaspersky Alert -->
     <div class="window kaspersky" style="top: 200px; left: 400px;">
-        <div class="titlebar kaspersky-bar">
-            <div class="titletext">Kaspersky Internet Security</div>
-            <button class="close">&times;</button>
-        </div>
-        <div class="content">
-            <div class="alert-icon">🛡️</div>
-            <div class="alert-title">MALWARE DETECTED</div>
-            <div class="alert-text">
-                <strong>Backdoor.Win32.Poison</strong><br>
-                Location: C:\Program Files\RealPlayer\RealPlayer.exe<br>
-                Threat Level: <span class="critical">HIGH</span><br>
-                Action: Quarantined
-            </div>
-            <button class="btn-action">REMOVE</button>
-        </div>
+        <div class="titlebar"><div class="titletext">Kaspersky Internet Security</div><button class="close">&times;</button></div>
+        <div class="content"><div class="alert-icon">🛡️</div><div class="alert-title">MALWARE DETECTED</div><div class="alert-text"><strong>Backdoor.Win32.Poison</strong><br>Location: C:\Program Files\RealPlayer\RealPlayer.exe<br>Threat Level: <span class="critical">HIGH</span><br>Action: Quarantined</div><button class="btn-action">REMOVE</button></div>
     </div>
 
-    <!-- Norton Alert -->
     <div class="window norton" style="top: 350px; left: 650px;">
-        <div class="titlebar norton-bar">
-            <div class="titletext">Norton AntiVirus</div>
-            <button class="close">&times;</button>
-        </div>
-        <div class="content">
-            <div class="alert-icon">🚨</div>
-            <div class="alert-title">VIRUS WARNING!</div>
-            <div class="alert-text">
-                <strong>Win32.Zotob.A!generic</strong><br>
-                File: C:\Windows\svchost.exe<br>
-                Recommended: Delete Immediately<br>
-                <div class="progress"><div class="progress-bar" style="width: 65%;"></div></div>
-                Cleaning... 65%
-            </div>
-            <button class="btn-action">DELETE</button>
-        </div>
+        <div class="titlebar"><div class="titletext">Norton AntiVirus</div><button class="close">&times;</button></div>
+        <div class="content"><div class="alert-icon">🚨</div><div class="alert-title">VIRUS WARNING!</div><div class="alert-text"><strong>Win32.Zotob.A!generic</strong><br>File: C:\Windows\svchost.exe<br>Recommended: Delete Immediately<br><div class="progress"><div class="progress-bar"></div></div>Cleaning... 65%</div><button class="btn-action">DELETE</button></div>
     </div>
 
-    <!-- Avast Alert -->
     <div class="window avast" style="top: 120px; left: 750px;">
-        <div class="titlebar avast-bar">
-            <div class="titletext">Avast Free Antivirus</div>
-            <button class="close">&times;</button>
-        </div>
-        <div class="content">
-            <div class="alert-icon">⛔</div>
-            <div class="alert-title">RANSOMWARE DETECTED</div>
-            <div class="alert-text">
-                <strong>Ransom.Wannacry</strong><br>
-                Status: <span class="critical">BLOCKED</span><br>
-                Action Taken: Quarantine<br>
-                <div class="progress"><div class="progress-bar" style="width: 100%;"></div></div>
-            </div>
-            <button class="btn-action">LEARN MORE</button>
-        </div>
+        <div class="titlebar"><div class="titletext">Avast Free Antivirus</div><button class="close">&times;</button></div>
+        <div class="content"><div class="alert-icon">⛔</div><div class="alert-title">RANSOMWARE DETECTED</div><div class="alert-text"><strong>Ransom.Wannacry</strong><br>Status: <span class="critical">BLOCKED</span><br>Action Taken: Quarantine<br><div class="progress"><div class="progress-bar"></div></div></div><button class="btn-action">LEARN MORE</button></div>
     </div>
 
-    <!-- Windows Defender Alert -->
     <div class="window defender" style="top: 400px; left: 200px;">
-        <div class="titlebar defender-bar">
-            <div class="titletext">Windows Defender Security Center</div>
-            <button class="close">&times;</button>
-        </div>
-        <div class="content">
-            <div class="alert-icon">⚠️</div>
-            <div class="alert-title">SPYWARE DETECTED</div>
-            <div class="alert-text">
-                <strong>PUA:Win32/Adware.Bundler</strong><br>
-                File: C:\Users\Admin\AppData\Local\Temp\infected.exe<br>
-                Risk Level: <span class="high">MEDIUM-HIGH</span><br>
-                Recommended Action: Remove
-            </div>
-            <button class="btn-action">REMOVE NOW</button>
-        </div>
+        <div class="titlebar"><div class="titletext">Windows Defender Security Center</div><button class="close">&times;</button></div>
+        <div class="content"><div class="alert-icon">⚠️</div><div class="alert-title">SPYWARE DETECTED</div><div class="alert-text"><strong>PUA:Win32/Adware.Bundler</strong><br>File: C:\Users\Admin\AppData\Local\Temp\infected.exe<br>Risk Level: <span class="high">MEDIUM-HIGH</span><br>Recommended Action: Remove</div><button class="btn-action">REMOVE NOW</button></div>
     </div>
 
-    <!-- Terminal/System Log -->
     <div class="window terminal" style="top: 500px; left: 400px;">
-        <div class="titlebar terminal-bar">
-            <div class="titletext">Command Prompt - System Log</div>
-            <button class="close">&times;</button>
-        </div>
+        <div class="titlebar terminal-bar"><div class="titletext">Command Prompt - System Log</div><button class="close">&times;</button></div>
         <div class="terminal-content">
-            <div class="log-line">C:\> ping localhost</div>
-            <div class="log-line">PING localhost (127.0.0.1): 32 bytes</div>
-            <div class="log-line">Reply from 127.0.0.1: time&lt;1ms TTL=64</div>
-            <div class="log-line blink" style="color: #ff3333;">C:\> CRITICAL ERROR - UNAUTHORIZED ACCESS DETECTED</div>
-            <div class="log-line">C:\> ipconfig</div>
-            <div class="log-line">IP Address: 192.168.1.100</div>
-            <div class="log-line blink" style="color: #ff3333;">BACKDOOR ESTABLISHED - 3 UNKNOWN CONNECTIONS</div>
-            <div class="log-line">C:\> _</div>
+            <div>C:\> ping localhost</div>
+            <div>PING localhost (127.0.0.1): 32 bytes</div>
+            <div>Reply from 127.0.0.1: time&lt;1ms TTL=64</div>
+            <div style="color: #ff3333;">C:\> CRITICAL ERROR - UNAUTHORIZED ACCESS DETECTED</div>
+            <div>C:\> ipconfig</div>
+            <div>IP Address: 192.168.1.100</div>
+            <div style="color: #ff3333;">BACKDOOR ESTABLISHED - 3 UNKNOWN CONNECTIONS</div>
+            <div>C:\> _</div>
         </div>
     </div>
 
-    <script src="script.js"><\/script>
+    <script>
+        let dragging = null;
+        let offset = {x: 0, y: 0};
+
+        document.addEventListener('mousedown', (e) => {
+            if (!e.target.closest('.titlebar')) return;
+            dragging = e.target.closest('.window');
+            if (!dragging) return;
+            
+            let rect = dragging.getBoundingClientRect();
+            offset.x = e.clientX - rect.left;
+            offset.y = e.clientY - rect.top;
+            dragging.style.zIndex = 10000;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!dragging) return;
+            dragging.style.left = (e.clientX - offset.x) + 'px';
+            dragging.style.top = (e.clientY - offset.y) + 'px';
+        });
+
+        document.addEventListener('mouseup', () => {
+            dragging = null;
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('close')) return;
+            let win = e.target.closest('.window');
+            if (!win) return;
+            win.style.visibility = 'hidden';
+            setTimeout(() => {
+                win.style.visibility = 'visible';
+                win.style.left = Math.random() * (window.innerWidth - 350) + 'px';
+                win.style.top = Math.random() * (window.innerHeight - 250) + 'px';
+            }, 5000);
+        });
+    </script>
 </body>
+</html>
 </html>
