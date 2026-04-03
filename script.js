@@ -1,62 +1,63 @@
-// Make windows draggable
-const windows = document.querySelectorAll('.window');
+// Global dragging state
+let draggedElement = null;
+let offsetX = 0;
+let offsetY = 0;
 
-windows.forEach(win => {
-    const titlebar = win.querySelector('.titlebar');
-    let isDragging = false;
-    let offsetX = 0;
-    let offsetY = 0;
-
-    titlebar.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        offsetX = e.clientX - win.offsetLeft;
-        offsetY = e.clientY - win.offsetTop;
-        win.style.zIndex = 1000;
-    });
-
-    document.addEventListener('mousemove', (e) => {
-        if (isDragging) {
-            win.style.left = (e.clientX - offsetX) + 'px';
-            win.style.top = (e.clientY - offsetY) + 'px';
-        }
-    });
-
-    document.addEventListener('mouseup', () => {
-        isDragging = false;
-    });
-
-    // Close button functionality
-    const closeBtn = win.querySelector('.close');
-    if (closeBtn) {
-        closeBtn.addEventListener('click', () => {
-            win.style.opacity = '0';
-            setTimeout(() => {
-                win.style.display = 'none';
-            }, 300);
-        });
-    }
-
-    // Re-add windows occasionally with animation
-    const randomReappear = () => {
-        setTimeout(() => {
-            if (Math.random() > 0.3) {
-                win.style.display = 'block';
-                win.style.opacity = '1';
-                win.style.left = Math.random() * window.innerWidth * 0.7 + 'px';
-                win.style.top = Math.random() * window.innerHeight * 0.7 + 'px';
-                randomReappear();
-            }
-        }, 3000 + Math.random() * 5000);
-    };
-
-    randomReappear();
+// Handle mousedown on titlebar to start dragging
+document.addEventListener('mousedown', (e) => {
+    const titlebar = e.target.closest('.titlebar');
+    if (!titlebar) return;
+    
+    const win = titlebar.closest('.window');
+    if (!win) return;
+    
+    e.preventDefault();
+    draggedElement = win;
+    offsetX = e.clientX - win.getBoundingClientRect().left;
+    offsetY = e.clientY - win.getBoundingClientRect().top;
+    win.style.zIndex = 10000;
 });
 
-// Continuous chaos
-setInterval(() => {
-    windows.forEach(win => {
-        if (Math.random() > 0.95) {
-            win.style.zIndex = Math.floor(Math.random() * 1000);
-        }
+// Handle mousemove to drag window
+document.addEventListener('mousemove', (e) => {
+    if (!draggedElement) return;
+    
+    draggedElement.style.left = (e.clientX - offsetX) + 'px';
+    draggedElement.style.top = (e.clientY - offsetY) + 'px';
+});
+
+// Handle mouseup to stop dragging
+document.addEventListener('mouseup', () => {
+    draggedElement = null;
+});
+
+// Handle close button clicks
+document.addEventListener('click', (e) => {
+    if (!e.target.classList.contains('close')) return;
+    
+    e.stopPropagation();
+    const win = e.target.closest('.window');
+    if (!win) return;
+    
+    // Hide the window
+    win.style.display = 'none';
+    
+    // Respawn after random delay (3-8 seconds)
+    setTimeout(() => {
+        win.style.display = 'block';
+        const randomX = Math.random() * (window.innerWidth - 350);
+        const randomY = Math.random() * (window.innerHeight - 250);
+        win.style.left = randomX + 'px';
+        win.style.top = randomY + 'px';
+    }, 3000 + Math.random() * 5000);
+});
+
+// Initial random positioning on page load
+window.addEventListener('load', () => {
+    document.querySelectorAll('.window').forEach(win => {
+        const randomX = Math.random() * (window.innerWidth - 350);
+        const randomY = Math.random() * (window.innerHeight - 250);
+        win.style.left = randomX + 'px';
+        win.style.top = randomY + 'px';
     });
-}, 500);
+});
