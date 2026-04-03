@@ -1,9 +1,8 @@
-// Global dragging state
 let draggedElement = null;
 let offsetX = 0;
 let offsetY = 0;
 
-// Handle mousedown on titlebar to start dragging
+// Start dragging when clicking titlebar
 document.addEventListener('mousedown', (e) => {
     const titlebar = e.target.closest('.titlebar');
     if (!titlebar) return;
@@ -11,14 +10,17 @@ document.addEventListener('mousedown', (e) => {
     const win = titlebar.closest('.window');
     if (!win) return;
     
-    e.preventDefault();
     draggedElement = win;
-    offsetX = e.clientX - win.getBoundingClientRect().left;
-    offsetY = e.clientY - win.getBoundingClientRect().top;
+    win.classList.add('dragging');
+    
+    const rect = win.getBoundingClientRect();
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+    
     win.style.zIndex = 10000;
 });
 
-// Handle mousemove to drag window
+// Move window while dragging
 document.addEventListener('mousemove', (e) => {
     if (!draggedElement) return;
     
@@ -26,8 +28,11 @@ document.addEventListener('mousemove', (e) => {
     draggedElement.style.top = (e.clientY - offsetY) + 'px';
 });
 
-// Handle mouseup to stop dragging
+// Stop dragging on mouseup
 document.addEventListener('mouseup', () => {
+    if (draggedElement) {
+        draggedElement.classList.remove('dragging');
+    }
     draggedElement = null;
 });
 
@@ -39,25 +44,12 @@ document.addEventListener('click', (e) => {
     const win = e.target.closest('.window');
     if (!win) return;
     
-    // Hide the window
     win.style.display = 'none';
     
-    // Respawn after random delay (3-8 seconds)
+    // Respawn after 4-8 seconds
     setTimeout(() => {
         win.style.display = 'block';
-        const randomX = Math.random() * (window.innerWidth - 350);
-        const randomY = Math.random() * (window.innerHeight - 250);
-        win.style.left = randomX + 'px';
-        win.style.top = randomY + 'px';
-    }, 3000 + Math.random() * 5000);
-});
-
-// Initial random positioning on page load
-window.addEventListener('load', () => {
-    document.querySelectorAll('.window').forEach(win => {
-        const randomX = Math.random() * (window.innerWidth - 350);
-        const randomY = Math.random() * (window.innerHeight - 250);
-        win.style.left = randomX + 'px';
-        win.style.top = randomY + 'px';
-    });
+        win.style.left = (Math.random() * (window.innerWidth - 350)) + 'px';
+        win.style.top = (Math.random() * (window.innerHeight - 250)) + 'px';
+    }, 4000 + Math.random() * 4000);
 });
