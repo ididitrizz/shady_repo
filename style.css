@@ -46,7 +46,12 @@ body {
     box-shadow: 1px 1px 0 #000000, 2px 2px 0 rgba(0,0,0,0.5);
     min-width: 300px;
     z-index: 100;
-    animation: shake 0.1s infinite;
+    user-select: none;
+    cursor: default;
+}
+
+.window.dragging {
+    animation: none !important;
 }
 
 @keyframes shake {
@@ -54,6 +59,10 @@ body {
     25% { transform: translate(-2px, -2px) rotate(0.5deg); }
     50% { transform: translate(2px, 2px) rotate(-0.5deg); }
     75% { transform: translate(-1px, 1px) rotate(0.2deg); }
+}
+
+.window:not(.dragging) {
+    animation: shake 0.1s infinite;
 }
 
 .titlebar {
